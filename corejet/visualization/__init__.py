@@ -1,1 +1,1 @@
-from corejet.visualization.generator import generateFromCatalogue
+from corejet.visualization.generator import generateReportFromCatalogue

@@ -5,7 +5,7 @@ import shutil
 import pkg_resources
 import lxml.etree
 
-def generateFromCatalogue(catalogue, directory):
+def generateReportFromCatalogue(catalogue, directory):
     """Given a RequirementsCatalogue object containing test results,
     generate a report in the given directory
     """

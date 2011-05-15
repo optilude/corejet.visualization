@@ -55,10 +55,10 @@ class ReportGeneration(unittest.TestCase):
                 )
             story1.scenarios.append(scenario2)
         
-        @when("The generateFromCatalogue() function is called")
+        @when("The generateReportFromCatalogue() function is called")
         def serialize(self):
-            from corejet.visualization import generateFromCatalogue
-            generateFromCatalogue(self.catalogue, self.tmpdir)
+            from corejet.visualization import generateReportFromCatalogue
+            generateReportFromCatalogue(self.catalogue, self.tmpdir)
         
         @then("The temporary directory contains a report")
         def checkOutput(self):
