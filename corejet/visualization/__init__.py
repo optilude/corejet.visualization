@@ -1,0 +1,1 @@
+from corejet.visualization.generator import generateFromCatalogue

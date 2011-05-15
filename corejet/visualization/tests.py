@@ -1,84 +1,70 @@
-import os
+import os.path
+import shutil
 import tempfile
+import datetime
 import unittest2 as unittest
 
-from corejet.core import story, scenario, given, when, then
+from corejet.core import Scenario, story, scenario, given, when, then
 
-@story(id="ST-1", title="As a developer, I can serialize my tests to XML")
-class XMLSerialization(unittest.TestCase):
+@story(id="CV-1", title="As a developer, I can generate a visualisation")
+class ReportGeneration(unittest.TestCase):
     
-    @given("A working directory")
-    def userOnLoginPageAndAccountIsLocked(self):
-        self.workingDir = tempfile.mkdtemp()
+    @scenario("Basic visualization")
+    class Basic(Scenario):
     
-    @then("Clean up")
-    def cleanUp(self):
-        os.removedirs(self.workingDir)
-    
-    @scenario("Empty catalog")
-    class MinimalOutput:
+        @given("A temporary directory")
+        def tempDir(self):
+            self.tmpdir = tempfile.mkdtemp()
         
-        @given("An empty requirements catalog")
+        @given("A requirements catalogue containing test results")
         def create(self):
-            from corejet.core.model import RequirementsCatalog
-            self.catalog = RequirementsCatalog()
+            from corejet.core.model import RequirementsCatalogue
+            from corejet.core.model import Epic, Story, Scenario, Step
+            
+            self.catalogue = RequirementsCatalogue(project="Test project",
+                extractTime=datetime.datetime(2011,1,2,12,1,0),
+                testTime=datetime.datetime(2011,1,2,12,5,0))
+            
+            epic1 = Epic("E1", "First epic")
+            self.catalogue.epics.append(epic1)
+            
+            epic2 = Epic("E2", "Second epic")
+            self.catalogue.epics.append(epic2)
+            
+            story1 = Story("S1", "First story", points=3, status="open",
+                priority="high", epic=epic1)
+            epic1.stories.append(story1)
+            
+            story2 = Story("S2", "Second story", points=3, status="closed",
+                resolution="fixed", priority="high", epic=epic1)
+            epic1.stories.append(story2)
+            
+            scenario1 = Scenario("First scenario", story=story1,
+                    givens=[Step("something", 'given')],
+                    whens=[Step("something happens", 'when')],
+                    thens=[Step("do something", 'then'), Step("and something else", 'then')],
+                    status="pass",
+                )
+            story1.scenarios.append(scenario1)
+            
+            scenario2 = Scenario("Second scenario", story=story2,
+                    givens=[Step("something", 'given')],
+                    whens=[Step("something happens", 'when')],
+                    thens=[Step("do something", 'then'), Step("and something else", 'then')],
+                    status="mismatch",
+                )
+            story1.scenarios.append(scenario2)
         
-        @when("The serialize() method is called")
+        @when("The generateFromCatalogue() function is called")
         def serialize(self):
-            self.tree = self.catalog.serialize()
+            from corejet.visualization import generateFromCatalogue
+            generateFromCatalogue(self.catalogue, self.tmpdir)
         
-        @then("A minimal XML tree is output")
+        @then("The temporary directory contains a report")
         def checkOutput(self):
-            import pdb; pdb.set_trace( )
-    
-    @scenario("Requirements extract")
-    class RequirementsExtract:
+            self.assertTrue(os.path.exists(os.path.join(self.tmpdir, 'index.html')))
+            self.assertTrue(os.path.exists(os.path.join(self.tmpdir, 'corejet-requirements.js')))
         
-        pass
-    
-    @scenario("Test run extract")
-    class TestRunExtract:
-        
-        pass
-    
-    @scenario("Writing to disk")
-    class Writing:
-        
-        pass
-
-@story(id="ST-2", title="As a developer, I can parse tests from XML")
-class XMLParsing(unittest.TestCase):
-    
-    @given("A working directory")
-    def userOnLoginPageAndAccountIsLocked(self):
-        self.workingDir = tempfile.mkdtemp()
-    
-    @then("Clean up")
-    def cleanUp(self):
-        os.removedirs(self.workingDir)
-    
-    @scenario("Empty catalog")
-    class MinimalInput:
-        
-        @given("An empty requirements catalog")
-        def create(self):
-            from corejet.core.model import RequirementsCatalog
-            self.catalog = RequirementsCatalog()
-        
-        @when("The serialize() method is called")
-        def serialize(self):
-            self.tree = self.catalog.serialize()
-        
-        @then("A minimal XML tree is output")
-        def checkOutput(self):
-            import pdb; pdb.set_trace( )
-    
-    @scenario("Requirements extract")
-    class RequirementsExtract:
-        
-        pass
-    
-    @scenario("Test run extract")
-    class TestRunExtract:
-        
-        pass
+        @then("Clean up")
+        def cleanUp(self):
+            shutil.rmtree(self.tmpdir)
