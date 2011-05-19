@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0a3
+-----
+
+- Fix broken package
+
 1.0a2
 -----
 
