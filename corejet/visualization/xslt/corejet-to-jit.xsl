@@ -38,7 +38,7 @@
     <xsl:template match="epic">
                          {   
                             'id':    'epic-<xsl:value-of select="@id"/>',
-                            'name':  '<xsl:value-of select="@title"/>',
+                            'name':  "<xsl:value-of select="translate(@title, '&quot;', '')"/>",
                             'data': {
                                         '$area': <xsl:value-of select="sum(child::story/@points)"/> * 10,
                                         <xsl:variable name="num_passing"><xsl:value-of select="count(story/scenario[@testStatus='pass'])"/></xsl:variable>
@@ -58,8 +58,13 @@
                                             'id': 'story-<xsl:value-of select="@id"/>',
                                             'name': '<xsl:value-of select="@id"/>',
                                             'data': {
-                                                      'title': '<xsl:value-of select="@title"/>',
-                                                      '$area': <xsl:value-of select="@points"/> * 10,
+                                                      'title': "<xsl:value-of select="translate(@title, '&quot;', '')"/>",
+                                                      '$area': 
+                                                            <xsl:choose>
+                                                                <xsl:when test="@points=''">10</xsl:when>
+                                                                <xsl:when test="not(@points)">10</xsl:when>
+                                                                <xsl:otherwise><xsl:value-of select="@points"/> * 10</xsl:otherwise>
+                                                            </xsl:choose>,
                                                             <xsl:variable name="num_passing"><xsl:value-of select="count(scenario[@testStatus='pass'])"/></xsl:variable>
                                                             <xsl:variable name="num_pending"><xsl:value-of select="count(scenario[@testStatus='pending'])"/></xsl:variable>
                                                             <xsl:variable name="total_scenarios"><xsl:value-of select="count(scenario)"/></xsl:variable>
@@ -89,7 +94,13 @@
                                                                                         '#a00'
                                                                                     </xsl:otherwise>
                                                                                 </xsl:choose>,
-                                                                      '$area': (<xsl:value-of select="../@points"/> / <xsl:value-of select="count(../scenario)"/>) * 10,
+                                                                      '$area': (
+                                                                        <xsl:choose>
+                                                                            <xsl:when test="../@points=''">1</xsl:when>
+                                                                            <xsl:when test="not(../@points)">1</xsl:when>
+                                                                            <xsl:otherwise><xsl:value-of select="../@points"/></xsl:otherwise>
+                                                                        </xsl:choose>
+                                                                            / <xsl:value-of select="count(../scenario)"/>) * 10,
                                                                     },
                                                             'children': [],
                                                           },
