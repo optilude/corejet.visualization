@@ -1,11 +1,10 @@
+from __future__ import with_statement 
+
 import os
 import os.path
 import shutil
 import pkg_resources
 import lxml.etree
-
-# python 2.5 compatibility
-from __future__ import with_statement 
 
 def generateReportFromCatalogue(catalogue, directory):
     """Given a RequirementsCatalogue object containing test results,
