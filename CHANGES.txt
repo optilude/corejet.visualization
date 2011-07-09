@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.0a5
+-----
+
+- Python 2.5 compatibility
+  [jodok]
+
+- MANIFEST.in to include CHANGES.txt in sdist
+  [jodok]
+
 1.0a4
 -----
 
