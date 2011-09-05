@@ -39,7 +39,7 @@ var json = {
       'id':   "epic-<xsl:value-of select="@id"/>",
       'name': "<xsl:value-of select="@title"/>",
       'data': {
-        '$area': <xsl:value-of select="sum(child::story/@points)"/> * 10,
+        '$area':  <xsl:value-of select="sum(child::story/@points)"/> * 10,
         '$color': custom_color_for(<xsl:number value="$num_passing"/>, <xsl:number value="$num_pending"/>, <xsl:number value="$total_scenarios"/>)
       },
       'children': [<xsl:apply-templates select="story"/>
@@ -51,11 +51,11 @@ var json = {
   <xsl:variable name="num_pending" select="count(scenario[@testStatus='pending'])"/>
   <xsl:variable name="total_scenarios" select="count(scenario)"/>
         {
-          'id': "story-<xsl:value-of select="@id"/>",
+          'id':   "story-<xsl:value-of select="@id"/>",
           'name': "<xsl:value-of select="@id"/>",
           'data': {
-            'title': "<xsl:value-of select="@title"/>",
-            '$area': <xsl:call-template name="area-for-story"/>,
+            'title':  "<xsl:value-of select="@title"/>",
+            '$area':  <xsl:call-template name="area-for-story"/>,
             '$color': custom_color_for(<xsl:number value="$num_passing"/>, <xsl:number value="$num_pending"/>, <xsl:number value="$total_scenarios"/>)
           },
           'children': [<xsl:apply-templates select="scenario"/>
@@ -67,8 +67,8 @@ var json = {
               'id':   "scenario-<xsl:value-of select="@name"/>",
               'name': "",
               'data': {
-                'title': "<xsl:value-of select="@name"/>",
-                '$area': <xsl:call-template name="area-for-scenario"/>,
+                'title':  "<xsl:value-of select="@name"/>",
+                '$area':  <xsl:call-template name="area-for-scenario"/>,
                 '$color': <xsl:call-template name="status-color"/>
               },
               'children': []
