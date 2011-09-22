@@ -36,4 +36,4 @@ def generateReportFromCatalogue(catalogue, directory):
     target_tree = xslt(source_tree)
     
     with open(os.path.join(directory, 'corejet-requirements.js'), 'w') as output:
-        output.write(unicode(target_tree))
+        output.write(str(target_tree))
