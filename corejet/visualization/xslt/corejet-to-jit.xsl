@@ -5,17 +5,21 @@
 // corejet-output.js, generated from Corejet Requirements Catalogue
 
 var custom_color_for = function(num_passing, num_pending, total) {
-  var weighted = (num_passing + (0.3 * num_pending)) / total;
-
-  var red = (255 * weighted) / 100;
-  var green = (255 * (100 - weighted)) / 100;
+  var num_failing, red, green;
 
   if (total === 0) {
-    red = 0;
-    green = 0;
+    red = green = 0;
+  } else {
+    num_failing = total - (num_passing + num_pending);
+    red = green = 170;  // #aa0
+    if (num_passing > num_failing) {
+      red = 170 - 170 * ((num_passing - num_failing) / total);
+    } else if (num_failing > num_passing) {
+      green = 170 - 170 * ((num_failing - num_passing) / total);
+    }
   }
 
-  return 'rgb(' + red + ',' + green + ',0)';
+  return 'rgb(' + Math.floor(red) + ',' + Math.floor(green) + ',0)';
 };
 
 var metadata = {
