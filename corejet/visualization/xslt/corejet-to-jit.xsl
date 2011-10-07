@@ -64,7 +64,7 @@ var json = {
 </xsl:template>
 <xsl:template match="scenario">
             {
-              'id':   "scenario-<xsl:value-of select="@name"/>",
+              'id':   "story-<xsl:value-of select="parent::node()/@id"/>-scenario-<xsl:value-of select="@name"/>",
               'name': "",
               'data': {
                 'title':  "<xsl:value-of select="@name"/>",
