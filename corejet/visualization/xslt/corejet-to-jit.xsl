@@ -12,10 +12,12 @@ var custom_color_for = function(num_passing, num_pending, total) {
   } else {
     num_failing = total - (num_passing + num_pending);
     red = green = 170;  // #aa0
-    if (num_passing > num_failing) {
-      red = 170 - 170 * ((num_passing - num_failing) / total);
-    } else if (num_failing > num_passing) {
-      green = 170 - 170 * ((num_failing - num_passing) / total);
+    rel_passing = Math.pow(num_passing / total, Math.E);
+    rel_failing = 1 - Math.pow(1 - (num_failing / total), Math.E);
+    if (rel_passing > rel_failing) {
+      red = 170 * rel_failing;
+    } else if (rel_failing > rel_passing) {
+      green = 170 * rel_passing;
     }
   }
 
