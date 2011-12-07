@@ -1,6 +1,14 @@
 Changelog
 =========
 
+- Fixed epic-level coloring to take account points of their stories
+  [datakurre]
+- Fixed 'corejet-to-jit.xsl' to prefix scenario-ids with story-ids
+  to allow identically named scenarios in different stories
+  [datakurre]
+- Fixed 'corejet-to-jit.xsl' to produce cleaner javascript
+  [datakurre]
+
 1.0a5
 -----
 

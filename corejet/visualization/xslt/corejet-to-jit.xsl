@@ -38,9 +38,9 @@ var json = {
 };
 </xsl:template>
 <xsl:template match="epic">
-  <xsl:variable name="num_passing" select="count(story/scenario[@testStatus='pass'])"/>
-  <xsl:variable name="num_pending" select="count(story/scenario[@testStatus='pending'])"/>
-  <xsl:variable name="total_scenarios" select="count(story/scenario)"/>
+  <xsl:variable name="num_passing" select="sum(story/scenario[@testStatus='pass']/parent::story/@points) * count(story/scenario[@testStatus='pass'])"/>
+  <xsl:variable name="num_pending" select="sum(story/scenario[@testStatus='pending']/parent::story/@points) * count(story/scenario[@testStatus='pending'])"/>
+  <xsl:variable name="total_scenarios" select="sum(story/scenario/parent::story/@points) * count(story/scenario)"/>
     {
       'id':   "epic-<xsl:value-of select="@id"/>",
       'name': "<xsl:value-of select="@title"/>",
