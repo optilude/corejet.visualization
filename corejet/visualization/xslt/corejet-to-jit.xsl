@@ -10,18 +10,16 @@ var custom_color_for = function(num_passing, num_pending, total) {
   if (total === 0) {
     red = green = 0;
   } else {
+    red = green = 170;
     num_failing = total - (num_passing + num_pending);
-    red = green = 170;  // #aa0
-    rel_passing = Math.pow(num_passing / total, Math.E);
-    rel_failing = 1 - Math.pow(1 - (num_failing / total), Math.E);
-    if (rel_passing > rel_failing) {
-      red = 170 * rel_failing;
-    } else if (rel_failing > rel_passing) {
-      green = 170 * rel_passing;
+    if (num_failing) {
+      green = 0;
+    } else if (!num_pending) {
+      red = 0;
     }
   }
 
-  return 'rgb(' + Math.floor(red) + ',' + Math.floor(green) + ',0)';
+  return 'rgb(' + red + ',' + green + ',0)';
 };
 
 var metadata = {
@@ -38,9 +36,9 @@ var json = {
 };
 </xsl:template>
 <xsl:template match="epic">
-  <xsl:variable name="num_passing" select="sum(story/scenario[@testStatus='pass']/parent::story/@points) * count(story/scenario[@testStatus='pass'])"/>
-  <xsl:variable name="num_pending" select="sum(story/scenario[@testStatus='pending']/parent::story/@points) * count(story/scenario[@testStatus='pending'])"/>
-  <xsl:variable name="total_scenarios" select="sum(story/scenario/parent::story/@points) * count(story/scenario)"/>
+  <xsl:variable name="num_passing" select="count(story/scenario[@testStatus='pass'])"/>
+  <xsl:variable name="num_pending" select="count(story/scenario[@testStatus='pending'])"/>
+  <xsl:variable name="total_scenarios" select="count(story/scenario)"/>
     {
       'id':   "epic-<xsl:value-of select="@id"/>",
       'name': "<xsl:value-of select="@title"/>",
