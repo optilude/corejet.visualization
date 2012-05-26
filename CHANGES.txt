@@ -1,13 +1,16 @@
 Changelog
 =========
 
-- Fixed epic-level coloring to take account points of their stories
-  [datakurre]
+
+1.0.0
+-----
+
 - Fixed 'corejet-to-jit.xsl' to prefix scenario-ids with story-ids
   to allow identically named scenarios in different stories
   [datakurre]
 - Fixed 'corejet-to-jit.xsl' to produce cleaner javascript
   [datakurre]
+
 
 1.0a5
 -----
@@ -18,11 +21,13 @@ Changelog
 - MANIFEST.in to include CHANGES.txt in sdist
   [jodok]
 
+
 1.0a4
 -----
 
 - Ensure output works even if there are no story points
   [optilude]
+
 
 1.0a3
 -----
@@ -30,12 +35,14 @@ Changelog
 - Fix broken package
   [optilude]
 
+
 1.0a2
 -----
 
 - Use lxml to output XSLT, avoiding the need for command-line invocation of
   xsltproc
   [optilude]
+
 
 1.0a1
 -----
